@@ -16,6 +16,7 @@ class Ball(pygame.sprite.Sprite):
 
     def __init__(self):
         super(Ball, self).__init__()
+        #The image of the main char
         self.image = pygame.image.load("smiley.png").convert()
 
         self.effect=pygame.mixer.Sound("tap.wav")
@@ -40,6 +41,7 @@ class Ball(pygame.sprite.Sprite):
 
 
     def go_left(self):
+        #magnitude of change 
         self.change_x=-5
       #
         self.effect.play()
@@ -52,16 +54,18 @@ class Ball(pygame.sprite.Sprite):
 
 
 class Blocks(pygame.sprite.Sprite):
+    #this class contains the falling objects
     def __init__(self,i):
         self.block_list=pygame.sprite.Group()
         pos=[30,40]
         super(Blocks, self).__init__()
+        #change this image to change the object
         self.image = pygame.image.load("block.jpg").convert()
         self.rect=self.image.get_rect()
 
 
         self.changey=1
-
+        #these values denote the pixel they are falling down
         if i==0:
             self.rect.x=0
         elif i==1:
@@ -82,7 +86,7 @@ class Blocks(pygame.sprite.Sprite):
         self.rect.y+=self.changey
 def main():
     pygame.init()
-    #
+    #screen size and intilization
     screen=pygame.display.set_mode([1090,600])
     pygame.display.set_caption("Blocky")
     ball=Ball()
@@ -111,6 +115,7 @@ def main():
             v=k
             score+=100
             print(score)
+            #for randomly assingning the way the blocks fall
             for i in range(k):
                 if k<4 and i<4:
                     block=Blocks(i)
@@ -124,7 +129,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
-
+            #change these lines to change the button of moving 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     ball.go_left()
@@ -150,7 +155,7 @@ def main():
         active_sprite_list.update()
 
         screen.fill(BLACK)
-
+        #updating the screen
         active_sprite_list.draw(screen)
         tick+=5
         clock.tick(tick)
