@@ -9,8 +9,13 @@ WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
+window_size=screenx,screeny=1090,700
+window = pygame.display.set_mode(window_size)
 
-
+def message_to_screen(window,msg,colour=WHITE,x=0,y=0,fontsize=25,bold=False,italic = False ):
+    message_font = pygame.font.SysFont("Century Gothic",fontsize,bold,italic)
+    screen_text = message_font.render(msg,True,colour)
+    window.blit(screen_text,[x,y])
 
 class Ball(pygame.sprite.Sprite):
 
@@ -30,7 +35,10 @@ class Ball(pygame.sprite.Sprite):
         self.Blocks=None
     def update(self):
 
-
+	if self.rect.x < 0:
+		self.change_x=+1
+	if self.rect.x>1090:
+		self.change_x=-1
         self.rect.x=self.rect.x+self.change_x
 
 
@@ -41,9 +49,9 @@ class Ball(pygame.sprite.Sprite):
 
 
     def go_left(self):
-        #magnitude of change 
+        #magnitude of change
+ 
         self.change_x=-5
-      #
         self.effect.play()
     def go_right(self):
         self.change_x=5
@@ -87,7 +95,7 @@ class Blocks(pygame.sprite.Sprite):
 def main():
     pygame.init()
     #screen size and intilization
-    screen=pygame.display.set_mode([1090,600])
+    screen=pygame.display.set_mode([screenx,screeny])
     pygame.display.set_caption("Blocky")
     ball=Ball()
 
@@ -115,6 +123,7 @@ def main():
             v=k
             score+=100
             print(score)
+	    message_to_screen( window , "Shade : " , WHITE , 80  , 455 , 20 )
             #for randomly assingning the way the blocks fall
             for i in range(k):
                 if k<4 and i<4:
